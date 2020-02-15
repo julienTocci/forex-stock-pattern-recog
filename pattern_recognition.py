@@ -18,6 +18,7 @@ def pattern_recognition(samples: int, pattern_array: list, performance_array: li
     # Contains the array of outcomes predicted by the identified patterns
     predicted_outcomes_array = []
 
+    # Not taking into account the last 5*dots_for_pattern
     for pattern in pattern_array[:-5]:
         # Tells if enough similarities have been found in order to consider the pattern similar to the one currently
         #samples considered
@@ -38,6 +39,7 @@ def pattern_recognition(samples: int, pattern_array: list, performance_array: li
                 break
 
         # If sufficient similarities were found continue on
+        #Calculating the average similarity value and keep only if above settings:pattern_similarity_value
         if similarities_are_found:
             # Compute how similar are the two patterns
             how_similar = np.sum(similarities_array) / dots_for_pattern
@@ -81,7 +83,7 @@ def pattern_recognition(samples: int, pattern_array: list, performance_array: li
 
         # Get the average of 10 future values to determine the chart gait and plot the dot as a reference of what is
         # going to happen
-        real_outcome_range = all_data[end_point+20:end_point+30]
+        real_outcome_range = all_data[end_point+dots_for_pattern-10:end_point+dots_for_pattern]
         real_average_outcome = np.average(real_outcome_range)
         real_movement = percent_change(all_data[end_point], real_average_outcome)
 
